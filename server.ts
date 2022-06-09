@@ -50,7 +50,10 @@ app.get("/users/:username", async (req: Request, res: Response) => {
 
 app.post("/users", async (req: Request, res: Response) => {
   try {
-    await User.create(req.body);
+    const user = await User.findOne({ username: req.body.username });
+    if (!user) {
+      await User.create(req.body);
+    }
   } catch (error) {
     console.log(error);
   }
